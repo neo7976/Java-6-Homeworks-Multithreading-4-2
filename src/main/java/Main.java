@@ -4,34 +4,17 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Main {
     public static final int SLEEP = 1;
     public static final int COUNT_THREAD = 5;
-//    public static final int SIZE = 100;
+    //    public static final int SIZE = 100;
     public static final int SIZE = 5_000;
 
     public static void main(String[] args) throws InterruptedException {
-        String[] names = new String[]{
-                "Света",
-                "Петр",
-                "Алексей",
-                "Иван",
-                "Дмитрий",
-                "Станислав"
-        };
 
-        List<String> namesList = new ArrayList<>();
-        String name;
-        for (int i = 0; i < SIZE; i++) {
-            name = names[new Random().nextInt(names.length - 1)];
-            namesList.add(name);
-        }
-        Thread.sleep(3000);
-
-
-        ConcurrentHashMap<String, Integer> concurrentHashMap = new ConcurrentHashMap<>();
-        Map<String, Integer> map = Collections.synchronizedMap(new HashMap<>());
+        ConcurrentHashMap<Integer, Integer> concurrentHashMap = new ConcurrentHashMap<>();
+        Map<Integer, Integer> map = Collections.synchronizedMap(new HashMap<>());
 
         Runnable concurrentThread = () -> {
             try {
-                addCount(concurrentHashMap, namesList, "concurrentHashMap");
+                addCount(concurrentHashMap,  "concurrentHashMap");
                 readCount(concurrentHashMap, "concurrentHashMap");
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -40,7 +23,7 @@ public class Main {
 
         Runnable mapThread = () -> {
             try {
-                addCount(map, namesList, "map");
+                addCount(map, "map");
                 readCount(map, "map");
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -58,10 +41,12 @@ public class Main {
         }
     }
 
-    public static void addCount(Map<String, Integer> map, List<String> str, String nameMap) throws InterruptedException {
+    public static void addCount(Map<Integer, Integer> map, String nameMap) throws InterruptedException {
         Random random = new Random();
+        int name = 0;
         long start = System.currentTimeMillis();
-        for (String name : str) {
+        for (int i = 0; i < SIZE; i++) {
+            name = random.nextInt(150);
             if (!map.containsKey(name))
                 map.put(name, random.nextInt(10));
             else {
@@ -75,9 +60,9 @@ public class Main {
                 Thread.currentThread().getName());
     }
 
-    public static void readCount(Map<String, Integer> map, String nameMap) throws InterruptedException {
+    public static void readCount(Map<Integer, Integer> map, String nameMap) throws InterruptedException {
         long start = System.currentTimeMillis();
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
 //            System.out.printf("[%s]%s: >> %d\n", nameMap, entry.getKey(), entry.getValue());
             Thread.sleep(SLEEP);
         }
