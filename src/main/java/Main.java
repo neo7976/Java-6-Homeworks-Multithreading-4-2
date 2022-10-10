@@ -3,8 +3,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
     public static final int SLEEP = 1;
-        public static final int SIZE = 100;
-//    public static final int SIZE = 5_000;
+    public static final int COUNT_THREAD = 5;
+//    public static final int SIZE = 100;
+    public static final int SIZE = 5_000;
 
     public static void main(String[] args) throws InterruptedException {
         String[] names = new String[]{
@@ -28,23 +29,33 @@ public class Main {
         ConcurrentHashMap<String, Integer> concurrentHashMap = new ConcurrentHashMap<>();
         Map<String, Integer> map = Collections.synchronizedMap(new HashMap<>());
 
-        new Thread(() -> {
+        Runnable concurrentThread = () -> {
             try {
                 addCount(concurrentHashMap, namesList, "concurrentHashMap");
                 readCount(concurrentHashMap, "concurrentHashMap");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }).start();
+        };
 
-        new Thread(() -> {
+        Runnable mapThread = () -> {
             try {
                 addCount(map, namesList, "map");
                 readCount(map, "map");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }).start();
+        };
+
+        for (int i = 0; i < COUNT_THREAD; i++) {
+            Thread thread = new Thread(concurrentThread);
+            thread.start();
+        }
+
+        for (int i = 0; i < COUNT_THREAD; i++) {
+            Thread thread = new Thread(mapThread);
+            thread.start();
+        }
     }
 
     public static void addCount(Map<String, Integer> map, List<String> str, String nameMap) throws InterruptedException {
@@ -60,16 +71,18 @@ public class Main {
             Thread.sleep(SLEEP);
         }
         long end = System.currentTimeMillis();
-        System.out.printf("Время на операцию \"%s\" в \"%s\" - [%d]\n", "добавление", nameMap, end - start);
+        System.out.printf("Время на операцию \"%s\" в \"%s\" - [%d] <<>> %s\n", "добавление", nameMap, end - start,
+                Thread.currentThread().getName());
     }
 
     public static void readCount(Map<String, Integer> map, String nameMap) throws InterruptedException {
         long start = System.currentTimeMillis();
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            System.out.printf("[%s]%s: >> %d\n", nameMap, entry.getKey(), entry.getValue());
+//            System.out.printf("[%s]%s: >> %d\n", nameMap, entry.getKey(), entry.getValue());
             Thread.sleep(SLEEP);
         }
         long end = System.currentTimeMillis();
-        System.out.printf("Время на операцию \"%s\" в \"%s\" - [%d]\n", "чтение", nameMap, end - start);
+        System.out.printf("Время на операцию \"%s\" в \"%s\" - [%d] <<>> %s\n", "чтение", nameMap, end - start,
+                Thread.currentThread().getName());
     }
 }
