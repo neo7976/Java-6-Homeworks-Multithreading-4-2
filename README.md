@@ -14,10 +14,12 @@
 ## *1. Решение*
 ### Были добавлены стринги и случайные числа. Ключи использовались в малом м большом количестве
 Чтение и запись у двух мап практически одинаковые, чтение всегда быстрее записи.
+![](https://github.com/neo7976/Java-6-Homeworks-Multithreading-4-2/blob/main/src/main/resources/small.png)
+![](https://github.com/neo7976/Java-6-Homeworks-Multithreading-4-2/blob/main/src/main/resources/big.png)
 
 ## *2. Решение*
 ### Создал вторую ветку, где использовал большое количество ключей в виде чисел.
 
 За счёт большого числа ключей увеличилось время чтения, но оно все равно в разы быстрее записи
 
-![](src\main\resource\big2.png)
+![](https://github.com/neo7976/Java-6-Homeworks-Multithreading-4-2/blob/main/src/main/resources/big2.png)
