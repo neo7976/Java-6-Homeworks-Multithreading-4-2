@@ -11,13 +11,14 @@
 
 # Решение задачи
 
-## *1. Решение*
+## *1. [Решение](https://github.com/neo7976/Java-6-Homeworks-Multithreading-4-2/blob/b48270cffb896fc888961a1070cffc9bd6486b92/src/main/java/Main.java)*
 ### Были добавлены стринги и случайные числа. Ключи использовались в малом м большом количестве
+
 Чтение и запись у двух мап практически одинаковые, чтение всегда быстрее записи.
 ![](https://github.com/neo7976/Java-6-Homeworks-Multithreading-4-2/blob/main/src/main/resources/small.png)
 ![](https://github.com/neo7976/Java-6-Homeworks-Multithreading-4-2/blob/main/src/main/resources/big.png)
 
-## *2. Решение*
+## *2. [Решение](https://github.com/neo7976/Java-6-Homeworks-Multithreading-4-2/blob/53b7f6ab6be8d5e6361c2dbe842234e896c34780/src/main/java/Main.java)*
 ### Создал вторую ветку, где использовал большое количество ключей в виде чисел.
 
 За счёт большого числа ключей увеличилось время чтения, но оно все равно в разы быстрее записи
